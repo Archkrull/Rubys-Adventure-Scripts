@@ -9,6 +9,7 @@ public class RubyController : MonoBehaviour
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
 
+
     public int health { get { return currentHealth; }}
     int currentHealth;
     
@@ -23,6 +24,7 @@ public class RubyController : MonoBehaviour
     Vector2 lookDirection = new Vector2(1,0);
 
     public GameObject projectilePrefab;
+    public ParticleSystem hitEffect;
     
     // Start is called before the first frame update
     void Start()
@@ -77,9 +79,11 @@ public class RubyController : MonoBehaviour
     {
         if (amount < 0)
         {
-            animator.SetTrigger("Hit");
             if (isInvincible)
                 return;
+            animator.SetTrigger("Hit");
+            Instantiate(hitEffect, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+            
             
             isInvincible = true;
             invincibleTimer = timeInvincible;
