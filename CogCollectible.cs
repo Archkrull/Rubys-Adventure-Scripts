@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthCollectible : MonoBehaviour
+public class CogCollectible : MonoBehaviour
 {
     public AudioClip collectedClip;
 
@@ -12,13 +12,12 @@ public class HealthCollectible : MonoBehaviour
 
         if (controller != null)
         {
-            if(controller.health  < controller.maxHealth)
-            {
-                controller.ChangeHealth(1);
+            
+                controller.ChangeCogs(5);
                 Destroy(gameObject);
 
                 controller.PlaySound(collectedClip);
-            }
+            
         }
     }
 }
