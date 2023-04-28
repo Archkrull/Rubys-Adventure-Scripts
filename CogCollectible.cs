@@ -11,12 +11,16 @@ public class CogCollectible : MonoBehaviour
         RubyController controller = other.GetComponent<RubyController>();
 
         if (controller != null)
+
         {
+            if(controller.cogs  < controller.maxCogs)
+            {
             
                 controller.ChangeCogs(5);
                 Destroy(gameObject);
 
                 controller.PlaySound(collectedClip);
+                }
             
         }
     }

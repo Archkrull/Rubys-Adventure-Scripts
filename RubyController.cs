@@ -7,11 +7,12 @@ public class RubyController : MonoBehaviour
     public float speed = 3.0f;
     
     public int maxHealth = 5;
-    public int maxCogs = 15;
+    public int maxCogs = 10;
     public float timeInvincible = 2.0f;
 
 
     public int health { get { return currentHealth; }}
+    public int cogs { get { return currentCogs; }}
     int currentHealth;
     int currentCogs;
     
@@ -37,7 +38,7 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         
         currentHealth = maxHealth;
-        currentCogs = 0;
+        currentCogs = maxCogs;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -120,9 +121,21 @@ public class RubyController : MonoBehaviour
 
     public void ChangeCogs(int amount)
     {
+        /* if (amount < 0)
+        {
+            if (isInvincible)
+                return;
+            animator.SetTrigger("Hit");
+            Instantiate(hitEffect, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+            
+            
+            isInvincible = true;
+            invincibleTimer = timeInvincible;
+        } */
 
         currentCogs = (currentCogs + amount);
-        UICogBar.instance.SetValue(currentCogs);
+        currentCogs = Mathf.Clamp(currentCogs + amount, 0, maxCogs);
+        UICogBar.instance.SetValue(currentCogs / (float)maxCogs);
     }
 
     public void Launch()
@@ -135,7 +148,9 @@ public class RubyController : MonoBehaviour
     projectile.Launch(lookDirection, 300);
 
     animator.SetTrigger("Launch");
-    currentCogs = (currentCogs -1);
+
+    ChangeCogs(-1);
+    
     }
 }
 }
